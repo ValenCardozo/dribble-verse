@@ -8,7 +8,7 @@
 
 // Specific Team: http://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams/:team
 
-
+// Get all teams
 $ch = curl_init();
 
 curl_setopt_array($ch, [
