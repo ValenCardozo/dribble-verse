@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 class Database
 {
+    private ?PDO $connection = null;
     private string $host;
     private string $name;
     private string $user;
@@ -23,12 +24,16 @@ class Database
 
     public function getConnection(): PDO
     {
-        $dsn = "mysql:host={$this->host};dbname={$this->name};charset=utf8";
+        if ($this->connection === null) {
+            $dsn = "mysql:host={$this->host};dbname={$this->name};charset=utf8";
 
-        return new PDO($dsn, $this->user, $this->password, [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_EMULATE_PREPARES => false,
-            PDO::ATTR_STRINGIFY_FETCHES => false
-        ]);
+            $this->connection = new PDO($dsn, $this->user, $this->password, [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_EMULATE_PREPARES => false,
+                PDO::ATTR_STRINGIFY_FETCHES => false
+            ]);
+        }
+
+        return $this->connection;
     }
 }
